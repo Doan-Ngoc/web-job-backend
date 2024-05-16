@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
 
-// app.use("/", jobExpireScheduler);
 app.use("/", rootRouter);
 connectMongoDb()
   .then(() => {

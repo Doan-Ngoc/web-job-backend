@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const companySchema = mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    // required: true,
   },
   name: {
     type: String,
@@ -32,6 +32,6 @@ const companySchema = mongoose.Schema({
   logo: String,
 }, { toJSON: { virtuals: true } });
 
-const companyModel = mongoose.model('Company', companySchema);
+const companyModel = mongoose.model('CompanyProfile', companySchema);
 
 module.exports = companyModel;

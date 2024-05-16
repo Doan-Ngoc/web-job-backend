@@ -7,6 +7,7 @@ const { encrypt } = require("../configs");
 const tokenModel = require("../models/refreshToken.model");
 
 module.exports = {
+  //Tạo tài khoản mới
   createUser: asyncHandler(async (req, res) => {
     const userWithEmail = await userService.findUserByEmail(req.body.email);
     if (userWithEmail) {
@@ -22,6 +23,7 @@ module.exports = {
     });
   }),
 
+  //Đăng nhập
   login: asyncHandler(async (req, res) => {
     const userWithEmail = await userService.findUserByEmail(req.body.email);
 
@@ -50,7 +52,6 @@ module.exports = {
       encrypt.jwtSecretAccess,
       { expiresIn: "1h" }
     );
-    console.log("done");
     const refreshToken = jwt.sign(
       { id: userWithEmail._id },
       encrypt.jwtSecretRefresh
@@ -63,6 +64,7 @@ module.exports = {
     });
   }),
 
+  //Refresh token
   refreshToken: asyncHandler(async (req, res) => {
     const { refreshToken } = req.body;
 

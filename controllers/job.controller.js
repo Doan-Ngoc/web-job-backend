@@ -26,7 +26,7 @@ module.exports = {
     } catch (error) {
       console.error("Error fetching job fields:", error);
       res.status(500).json({ error: "Server error" });
-    }
+    } 
   },
   // Get data of a job by its ID
   async getJobById(req, res) {
@@ -70,7 +70,6 @@ module.exports = {
   // Create a new job listing
   async createNewJob(req, res) {
     try {
-      console.log(req.body);
       const job = new JobModel({
         title: req.body.title,
         company: req.body.company,
@@ -139,7 +138,6 @@ module.exports = {
   async updateJob(req, res) {
     const jobId = req.params.jobId;
     try {
-      console.log("start");
       const editedJob = await JobModel.findById(jobId);
 
       if (!editedJob) {
