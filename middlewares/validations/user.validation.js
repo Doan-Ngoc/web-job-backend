@@ -4,19 +4,17 @@ const constants = require('../../constants');
 module.exports = [
   body('email')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('Please enter your email')
     .isEmail()
-    .withMessage('invaild email'),
+    .withMessage('Invaild email address'),
   body('password')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('Please enter your password')
     .isLength({ min: 6 })
-    .withMessage('password has to be at least 6 characters')
-    .isAlphanumeric()
-    .withMessage('password must include both numbers and characters'),
+    .withMessage('Password must be at least 6 characters'),
   body('role')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('Please select your role')
     .isIn(constants.roles)
     .withMessage('invalid role'),
 ];

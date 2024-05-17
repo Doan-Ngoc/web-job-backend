@@ -43,7 +43,6 @@ module.exports = {
         message: "Incorrect password",
       });
     }
-    console.log(encrypt);
     const accessToken = jwt.sign(
       {
         id: userWithEmail._id,
