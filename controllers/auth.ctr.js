@@ -17,9 +17,8 @@ module.exports = {
       });
     }
     const newUser = await UserModel.create(req.body);
-    const user = newUser.toObject();
     return res.status(StatusCodes.CREATED).json({
-      id: user._id,
+      id: newUser._id,
     });
   }),
 
@@ -51,15 +50,15 @@ module.exports = {
       encrypt.jwtSecretAccess,
       { expiresIn: "1h" }
     );
-    const refreshToken = jwt.sign(
-      { id: userWithEmail._id },
-      encrypt.jwtSecretRefresh
-    );
+    // const refreshToken = jwt.sign(
+    //   { id: userWithEmail._id },
+    //   encrypt.jwtSecretRefresh
+    // );
 
     return res.status(200).json({
       user: userWithEmail._id,
       accessToken,
-      refreshToken,
+      // refreshToken,
     });
   }),
 

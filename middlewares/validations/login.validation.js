@@ -4,10 +4,10 @@ const constants = require('../../constants');
 module.exports = [
   body('email')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('Please enter your email')
     .isEmail()
-    .withMessage('invaild email'),
+    .withMessage(),
   body('password')
     .notEmpty()
-    .withMessage('this field is required'),
+    .withMessage('Please enter your password'),
 ];
