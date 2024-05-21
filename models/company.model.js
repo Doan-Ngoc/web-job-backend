@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const companySchema = mongoose.Schema({
-  owner: {
+  accountId: {
     type: mongoose.Schema.Types.ObjectId,
-    // required: true,
+    required: true,
   },
   name: {
     type: String,
@@ -21,7 +21,7 @@ const companySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  working_fields: {
+  workingFields: {
     type: String,
     required: true,
   },

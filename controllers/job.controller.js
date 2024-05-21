@@ -48,8 +48,6 @@ module.exports = {
   async searchJobByKeyWord(req, res) {
     try {
       const searchTerm = req.body.searchTerm;
-      console.log(req.body);
-      console.log("search term", searchTerm);
       const regex = new RegExp(searchTerm, "i");
       const searchResult = await JobModel.find({
         $or: [

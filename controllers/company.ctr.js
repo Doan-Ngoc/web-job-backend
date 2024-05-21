@@ -35,13 +35,13 @@ module.exports = {
   // Add company profile to database
   async createCompanyProfile(req, res) {
     try {
-      console.log('Data received from frontend:', req.body);
           const companyProfile = new  companyModel({
+            accountId: req.body.accountId,
             name: req.body.name,
             phone: req.body.phone,
             email: req.body.email,
             address: req.body.address,
-            working_fields: req.body.working_fields,
+            workingFields: req.body.workingFields,
             description: req.body.description,
           });
     
@@ -55,12 +55,4 @@ module.exports = {
             .json({ success: false, error: "An error occurred" });
         }
       },
-      // res.status(201).json({ message: 'Profile created successfully' });
-      // res.json(req.body);
-    // } catch (error) {
-    //   console.error('Error creating profile:', error);
-    // res.status(500).json({ error: 'Internal Server Error' });
-    // }
-  // }
-// )
 };

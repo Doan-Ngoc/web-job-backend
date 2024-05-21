@@ -3,7 +3,7 @@ const constants = require("../constants");
 
 module.exports = (roles) => (req, res, next) => {
   if (
-    req.user.role !== constants.roles.admin &&
+    !req.user.role &&
     !roles.includes(req.user.role)
   ) {
     return res.status(StatusCodes.UNAUTHORIZED).json({
