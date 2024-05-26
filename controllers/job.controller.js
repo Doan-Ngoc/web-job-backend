@@ -4,6 +4,7 @@ module.exports = {
   // Get all jobs
   async getAllJobs(req, res) {
     try {
+      console.log('reach here')
       const { page = 1, limit = 5 } = req.query;
       const options = {
         page: page,

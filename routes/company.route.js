@@ -8,17 +8,19 @@ const validate = require("../middlewares/ValidationHandler");
 
 const router = Router();
 
-router.post("/profile/new", 
-allowTo(roles.company),
+// router.get("/profile",
+//   allowTo(roles.company),
+//   companyCtr.getCompanyByAccount)
+router.post("/profile/new",
+  allowTo(roles.company),
   companyValidation,
   validate,
   companyCtr.createCompanyProfile)
-router.get("/", companyCtr.getCompanyByAccount);
 
 // router.post(
 //   "/",
 //   allowTo(roles.company),
-//   companyValidation,
+//   companyValidations,
 //   validate,
 //   companyCtr.createCompany
 // );

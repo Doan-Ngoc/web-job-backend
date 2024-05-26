@@ -20,15 +20,21 @@ module.exports = {
     return res.status(StatusCodes.CREATED).json({ data: newCompany });
   }),
 
-  getCompanyByAccount: asyncHandler(async (req, res) => {
-    const associatedCompany = await companyService.getCompanyByRecruiter(
-      req.user.id
-    );
-
-    if (!associatedCompany) {
-      return res
+    //Find a company profile by the account id
+  getCompanyProfileByAccount: asyncHandler(async (req, res) => {
+    try {
+      const associatedProfile = await companyService.getCompanyByRecruiter(
+        req.user.id
+      );
+      if (!associatedProfile) {
+        return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: "Account has not associated with any company" });
+      }
+      res.json(associatedProfile);
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }),
 
@@ -55,4 +61,21 @@ module.exports = {
             .json({ success: false, error: "An error occurred" });
         }
       },
+
+      //Find a company profile by the account id
+      // async getCompanyProfileByAccountId(req, res) {
+      //   try {
+      //     const profileId = req.params.profileId;
+      //     const profile = await companyModel.findById(profileId);
+    
+      //     if (!profile) {
+      //        return res.status(404).json({ error: "Profile not found" });
+      //     }
+      //     res.json(profile);
+      //   } catch (error) {
+      //     console.error("Error fetching profile data:", error);
+      //     res.status(500).json({ error: "Internal Server Error" });
+      //   }
+      // },
+
 };
