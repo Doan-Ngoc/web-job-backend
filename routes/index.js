@@ -12,13 +12,13 @@ const router = Router();
 
 router.use("/job", jobRoutes);
 router.use("/auth", authenRoutes);
-
+router.use("/company", companyRoutes);
 router.use(requireSignin);
 
 router.use("/authorize", authorizeRoutes);
 router.use("/account", accountRoutes);
 router.use("/employee", profileRoutes);
-// router.use("/company", companyRoutes);
+
 
 router.use(exceptionHandler);
 

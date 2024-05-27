@@ -24,13 +24,15 @@ module.exports = {
   getCompanyProfileByAccount: asyncHandler(async (req, res) => {
     try {
       const associatedProfile = await companyService.getCompanyByRecruiter(
-        req.user.id
+        req.params.accountId
       );
-      if (!associatedProfile) {
-        return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ message: "Account has not associated with any company" });
-      }
+      // if (!associatedProfile) {
+      //   console.log('no profile')
+      //   return res
+      //   .status(StatusCodes.NOT_FOUND)
+      //   .json({ message: "Account has not associated with any company" });
+      // }
+      // console.log('found profile', associatedProfile)
       res.json(associatedProfile);
     } catch (error) {
       console.error("Error fetching profile data:", error);

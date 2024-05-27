@@ -8,10 +8,21 @@ module.exports = {
     });
     return newCompany;
   },
-  async getCompanyByRecruiter(recruiter) {
-    const company = await CompanyModel.find({
-      owner: recruiter,
+
+  async getCompanyByRecruiter(accountId) {
+    console.log('account id', accountId)
+    try {
+    const companyProfile = await CompanyModel.find({
+      accountId: accountId,
     });
-    return company;
-  },
-};
+    if (companyProfile.length === 0) {
+      return null;
+    }
+    return companyProfile;
+  }
+  catch (error) {
+    console.error("Error fetching company profile data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+}

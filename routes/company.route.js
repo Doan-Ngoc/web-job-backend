@@ -5,13 +5,15 @@ const allowTo = require("../middlewares/allowTo");
 const { roles } = require("../constants");
 const companyValidation = require("../middlewares/validations/company.validation");
 const validate = require("../middlewares/ValidationHandler");
+const requireSignin = require("../middlewares/requireSignin");
 
 const router = Router();
 
-// router.get("/profile",
-//   allowTo(roles.company),
-//   companyCtr.getCompanyByAccount)
-router.post("/profile/new",
+router.get("/profile/:accountId",
+  companyCtr.getCompanyProfileByAccount)
+
+router.post("/profile/new", 
+  requireSignin,
   allowTo(roles.company),
   companyValidation,
   validate,

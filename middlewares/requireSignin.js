@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
   ) {
     token = req.headers.authorization.split(" ")[1];
   } else {
+    console.log(req.headers.authorization)
     return res.status(StatusCodes.UNAUTHORIZED).json({
       message: "Invalid access token",
     });
