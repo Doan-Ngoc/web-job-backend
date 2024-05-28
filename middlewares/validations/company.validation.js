@@ -14,7 +14,7 @@ module.exports = [
   body('email')
     .isEmail()
     .withMessage('invalid email address'),
-  body('working_fields')
+  body('workingFields')
     .notEmpty()
     .withMessage('this field is required')
     .isLength({ min: 1, max: 200 })

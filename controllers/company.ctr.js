@@ -5,34 +5,27 @@ const companyService = require("../services/company.service");
 const companyModel = require("../models/company.model")
 
 module.exports = {
-  createCompany: asyncHandler(async (req, res) => {
-    const associatedCompany = await companyService.getCompanyByRecruiter(
-      req.user.id
-    );
+  // createCompany: asyncHandler(async (req, res) => {
+  //   const associatedProfile = await companyService.getCompanyProfileByAccountId(
+  //     req.body.accountId
+  //   );
 
-    if (associatedCompany) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: "Account has already associated with a company" });
-    }
+  //   if (associatedProfile) {
+  //     return res
+  //       .status(StatusCodes.BAD_REQUEST)
+  //       .json({ message: "Account has already associated with a profile" });
+  //   }
 
-    const newCompany = await companyService.create(req.user.id, req.body);
-    return res.status(StatusCodes.CREATED).json({ data: newCompany });
-  }),
+  //   const newCompany = await companyService.create(req.user.id, req.body);
+  //   return res.status(StatusCodes.CREATED).json({ data: newCompany });
+  // }),
 
     //Find a company profile by the account id
   getCompanyProfileByAccount: asyncHandler(async (req, res) => {
     try {
-      const associatedProfile = await companyService.getCompanyByRecruiter(
+      const associatedProfile = await companyService.getCompanyProfileByAccount(
         req.params.accountId
       );
-      // if (!associatedProfile) {
-      //   console.log('no profile')
-      //   return res
-      //   .status(StatusCodes.NOT_FOUND)
-      //   .json({ message: "Account has not associated with any company" });
-      // }
-      // console.log('found profile', associatedProfile)
       res.json(associatedProfile);
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -43,6 +36,15 @@ module.exports = {
   // Add company profile to database
   async createCompanyProfile(req, res) {
     try {
+      const associatedProfile = await companyService.getCompanyProfileByAccountId(
+        req.body.accountId
+      );
+  
+      if (associatedProfile) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: "Account has already associated with a profile" });
+      }
           const companyProfile = new  companyModel({
             accountId: req.body.accountId,
             name: req.body.name,
