@@ -9,7 +9,7 @@ module.exports = {
     return newCompany;
   },
 
-  async getCompanyProfileByAccount(accountId) {
+  async getCompanyProfileByAccountId(accountId) {
     try {
     const companyProfile = await CompanyModel.find({
       accountId: accountId,

@@ -23,7 +23,7 @@ module.exports = {
     //Find a company profile by the account id
   getCompanyProfileByAccount: asyncHandler(async (req, res) => {
     try {
-      const associatedProfile = await companyService.getCompanyProfileByAccount(
+      const associatedProfile = await companyService.getCompanyProfileByAccountId(
         req.params.accountId
       );
       res.json(associatedProfile);
@@ -48,6 +48,7 @@ module.exports = {
           const companyProfile = new  companyModel({
             accountId: req.body.accountId,
             name: req.body.name,
+            logo: req.body.logo,
             phone: req.body.phone,
             email: req.body.email,
             address: req.body.address,
