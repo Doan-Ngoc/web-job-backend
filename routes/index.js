@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const authenRoutes = require("./authenticate.route");
-const profileRoutes = require("./profile.route");
+const applicantRoutes = require("./applicant.route");
 const companyRoutes = require("./company.route");
 const accountRoutes = require("./account.route");
 const jobRoutes = require("../routes/job.route");
@@ -13,11 +13,12 @@ const router = Router();
 router.use("/job", jobRoutes);
 router.use("/auth", authenRoutes);
 router.use("/company", companyRoutes);
+router.use("/applicant", applicantRoutes);
 router.use(requireSignin);
 
 router.use("/authorize", authorizeRoutes);
 router.use("/account", accountRoutes);
-router.use("/employee", profileRoutes);
+
 
 
 router.use(exceptionHandler);

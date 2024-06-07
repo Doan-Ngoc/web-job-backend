@@ -25,7 +25,7 @@ const companySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  workingFields: {
+  companyIndustry: {
     type: String,
     required: true,
   },

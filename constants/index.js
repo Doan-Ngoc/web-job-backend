@@ -1,7 +1,7 @@
 exports.roles = {
   admin: 'admin',
   company: 'company',
-  employee: 'employee',
+  applicant: 'applicant',
 };
 
 exports.genders = ['none', 'male', 'female'];

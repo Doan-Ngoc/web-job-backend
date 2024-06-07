@@ -52,7 +52,7 @@ module.exports = {
             phone: req.body.phone,
             email: req.body.email,
             address: req.body.address,
-            workingFields: req.body.workingFields,
+            companyIndustry: req.body.companyIndustry,
             description: req.body.description,
           });
     

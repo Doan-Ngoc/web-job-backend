@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { environmentConfig } = require("@configs");
+const JobFieldModel = require("../models/field.model")
 
 module.exports = async function () {
   await mongoose.connect(

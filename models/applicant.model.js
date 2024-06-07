@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const constants = require('@constants');
 
-const userProfileSchema = mongoose.Schema({
+const applicantProfileSchema = mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -44,6 +44,6 @@ const userProfileSchema = mongoose.Schema({
   attachment: String,
 }, { toJSON: { virtuals: true } });
 
-const userProfileModel = mongoose.model('UserProfile', userProfileSchema);
+const applicantProfileModel = mongoose.model('ApplicantProfile', applicantProfileSchema);
 
-module.exports = userProfileModel;
+module.exports = applicantProfileModel;

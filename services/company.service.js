@@ -11,13 +11,14 @@ module.exports = {
 
   async getCompanyProfileByAccountId(accountId) {
     try {
-    const companyProfile = await CompanyModel.find({
+    const companyProfile = await CompanyModel.findOne({
       accountId: accountId,
     });
-    if (companyProfile.length === 0) {
-      return null;
-    }
-    return companyProfile;
+    return companyProfile || null;
+    // if (companyProfile.length === 0) {
+    //   return null;
+    // }
+    // return companyProfile;
   }
   catch (error) {
     console.error("Error fetching company profile data:", error);
