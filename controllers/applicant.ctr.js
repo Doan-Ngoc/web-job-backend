@@ -3,25 +3,33 @@ const asyncHandler = require("@utils/AsyncHandler");
 const applicantService = require("../services/applicant.service");
 
 module.exports = {
-  createUserProfile: asyncHandler(async (req, res) => {
-    const existingUserProfile = await applicantService.findProfileByAcccountId(
-      req.user.id
+  createApplicantProfile: asyncHandler(async (req, res) => {
+  try {
+    console.log('body', req.body)
+    const associatedProfile = await applicantService.findProfileByAccountId(
+      req.body.accountId
     );
-    if (existingUserProfile) {
+    if (associatedProfile) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "User profile has already existed",
+        message: "Account is already associated with a profile",
       });
     }
-
-    const newProfile = await applicantService.createUserProfile(
-      req.user.id,
+    console.log('come here')
+    const newProfile = await applicantService.createApplicantProfile(
       req.body
     );
 
     return res.status(StatusCodes.CREATED).json({
-      data: newProfile,
+      newProfile: newProfile,
     });
-  }),
+  }
+  catch (err) {
+    console.log(err)
+    return res
+      .status(400)
+      .json({ success: false, error: "An error occurred" });
+  }}
+),
 
   getApplicantProfile: asyncHandler(async (req, res) => {
     try {

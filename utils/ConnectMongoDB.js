@@ -10,5 +10,5 @@ module.exports = async function () {
       useUnifiedTopology: true,
     }
   );
-  console.log("Connected to MongoDB");
+  console.log("Connected to MongoDB"); 
 };

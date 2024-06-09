@@ -43,7 +43,7 @@ module.exports = {
       if (associatedProfile) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "Account has already associated with a profile" });
+          .json({ message: "Account is already associated with a profile" });
       }
           const companyProfile = new  companyModel({
             accountId: req.body.accountId,
