@@ -25,8 +25,8 @@ const companySchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  companyIndustry: {
-    type: String,
+  companyIndustries: {
+    type: [String],
     required: true,
   },
   description: {

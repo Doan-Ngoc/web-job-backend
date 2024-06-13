@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
       message: "Invalid access token",
     });
   }
-
   try {
     const decodedToken = jwt.verify(token, encrypt.jwtSecretAccess);
     req.user = decodedToken;

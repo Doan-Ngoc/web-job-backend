@@ -11,12 +11,12 @@ router.post(
   "/profile/new",
   requireSignin,
   allowTo(roles.applicant),
-  // applicantNewProfileValidation,
-  // validate,
+  applicantNewProfileValidation,
+  validate,
   applicantCtr.createApplicantProfile
 );
 
 router.get("/profile/:accountId", 
-applicantCtr.getApplicantProfile);
+applicantCtr.getApplicantProfileByAccount);
 
 module.exports = router;

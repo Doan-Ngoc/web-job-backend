@@ -45,20 +45,26 @@ module.exports = {
           .status(StatusCodes.BAD_REQUEST)
           .json({ message: "Account is already associated with a profile" });
       }
-          const companyProfile = new  companyModel({
-            accountId: req.body.accountId,
-            name: req.body.name,
-            logo: req.body.logo,
-            phone: req.body.phone,
-            email: req.body.email,
-            address: req.body.address,
-            companyIndustry: req.body.companyIndustry,
-            description: req.body.description,
+      const newCompanyProfile = await companyService.createCompany(
+        req.body
+      )
+          // const newCompanyProfile = new  companyModel({
+          //   accountId: req.body.accountId,
+          //   name: req.body.name,
+          //   logo: req.body.logo,
+          //   phone: req.body.phone,
+          //   email: req.body.email,
+          //   address: req.body.address,
+          //   companyIndustries: req.body.companyIndustries,
+          //   description: req.body.description,
+          // });
+    
+          // await companyProfile.save();
+    
+          // res.json({ status: "Company profile created successfully" });
+          return res.status(StatusCodes.CREATED).json({
+            newProfile: newCompanyProfile, 
           });
-    
-          await companyProfile.save();
-    
-          res.json({ status: "Company profile created successfully" });
         } catch (err) {
           console.log(err)
           return res

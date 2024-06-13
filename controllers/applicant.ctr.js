@@ -5,7 +5,6 @@ const applicantService = require("../services/applicant.service");
 module.exports = {
   createApplicantProfile: asyncHandler(async (req, res) => {
   try {
-    console.log('body', req.body)
     const associatedProfile = await applicantService.findProfileByAccountId(
       req.body.accountId
     );
@@ -14,13 +13,12 @@ module.exports = {
         message: "Account is already associated with a profile",
       });
     }
-    console.log('come here')
-    const newProfile = await applicantService.createApplicantProfile(
+    const newAppicantProfile = await applicantService.createApplicantProfile(
       req.body
     );
 
     return res.status(StatusCodes.CREATED).json({
-      newProfile: newProfile,
+      newProfile: newAppicantProfile,
     });
   }
   catch (err) {
@@ -31,7 +29,7 @@ module.exports = {
   }}
 ),
 
-  getApplicantProfile: asyncHandler(async (req, res) => {
+getApplicantProfileByAccount: asyncHandler(async (req, res) => {
     try {
     const existingApplicantProfile = await applicantService.findProfileByAccountId(
       // req.user.id

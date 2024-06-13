@@ -15,11 +15,9 @@ module.exports = {
   }},
 
   async createApplicantProfile(profileData) {
-    console.log('data', profileData)
     const newApplicantProfile = await applicantProfileModel.create(
       profileData
     );
-    console.log('done')
 
     return newApplicantProfile;
   },

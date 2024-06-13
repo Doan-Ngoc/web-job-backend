@@ -3,17 +3,22 @@ const { body } = require('express-validator');
 module.exports = [
   body('name')
     .notEmpty()
-    .withMessage('this field is required'),
+    .withMessage('This field is required'),
   body('phone')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('This field is required')
     .isNumeric({ no_symbols: true })
     .withMessage('Invalid phone number'),
+    body('email')
+    .notEmpty()
+    .withMessage('This field is required')
+    .isEmail()
+    .withMessage('Invalid email address'),
   body('workingFields')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('This field is required')
     .isArray(),
   body('description')
     .notEmpty()
-    .withMessage('this field is required')
+    .withMessage('This field is required')
 ];
