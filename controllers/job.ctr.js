@@ -99,7 +99,7 @@ module.exports = {
   async getJobListByCompany(req, res) {
     try {
       const companyCreatedJobs = await JobModel.find({
-        company: req.body.company,
+        createdBy: req.body.accountId,
       });
       if (!companyCreatedJobs) {
         throw new Error("Jobs not found");
