@@ -19,12 +19,4 @@ router.post("/profile/new",
   validate,
   companyCtr.createCompanyProfile)
 
-// router.post(
-//   "/",
-//   allowTo(roles.company),
-//   companyValidations,
-//   validate,
-//   companyCtr.createCompany
-// );
-
 module.exports = router;

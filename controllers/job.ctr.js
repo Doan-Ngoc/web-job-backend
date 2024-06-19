@@ -84,7 +84,6 @@ module.exports = {
         status: req.body.status,
         applicants: req.body.applicants,
       });
-
       await job.save();
 
       res.json({ status: "Job created successfully" });
@@ -99,7 +98,7 @@ module.exports = {
   async getJobListByCompany(req, res) {
     try {
       const companyCreatedJobs = await JobModel.find({
-        createdBy: req.body.accountId,
+        createdBy: req.user.id,
       });
       if (!companyCreatedJobs) {
         throw new Error("Jobs not found");

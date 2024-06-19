@@ -1,10 +1,18 @@
 const express = require("express");
 const jobRouter = express.Router();
 const jobController = require("../controllers/job.ctr");
+const requireSignin = require("../middlewares/requireSignin");
+const allowTo = require("../middlewares/allowTo");
+const { roles } = require("../constants");
+const createJobValidation = require('../middlewares/validations/createJob.validation')
+const validate = require("../middlewares/ValidationHandler");
 
 jobRouter.use("/search", jobController.searchJobByKeyWord);
-jobRouter.post("/new", jobController.createNewJob);
-jobRouter.post("/created", jobController.getJobListByCompany);
+jobRouter.post("/new", 
+    createJobValidation, 
+    validate, 
+    jobController.createNewJob);
+jobRouter.get("/created", requireSignin, allowTo(roles.company), jobController.getJobListByCompany);
 jobRouter.post("/remove/:jobId", jobController.removeJob);
 jobRouter.put("/update/:jobId", jobController.updateJob);
 jobRouter.get("/api/fields", jobController.getJobFields);
