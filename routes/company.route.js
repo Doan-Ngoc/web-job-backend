@@ -13,8 +13,6 @@ router.get("/profile/:accountId",
   companyCtr.getCompanyProfileByAccount)
 
 router.post("/profile/new", 
-  requireSignin,
-  allowTo(roles.company),
   companyValidation,
   validate,
   companyCtr.createCompanyProfile)

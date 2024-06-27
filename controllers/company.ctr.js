@@ -36,6 +36,7 @@ module.exports = {
   // Add company profile to database
   async createCompanyProfile(req, res) {
     try {
+      console.log('company profile data on backend', req.body)
       const associatedProfile = await companyService.getCompanyProfileByAccountId(
         req.body.accountId
       );
