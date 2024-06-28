@@ -1,4 +1,5 @@
 const applicantProfileModel = require('@models/applicant.model');
+const multer = require('multer')
 
 module.exports = {
   async findProfileByAccountId(accountId) {
@@ -14,11 +15,20 @@ module.exports = {
     res.status(500).json({ error: "Internal Server Error" });
   }},
 
-  async createApplicantProfile(profileData) {
+  async createApplicantProfile(profileData, avatarPath) {
+    // const newApplicantProfile = await applicantProfileModel.create(
+    //   profileData
+    // );
+    const profile = {
+      ...profileData,
+      profilePicture: avatarPath
+    }
     const newApplicantProfile = await applicantProfileModel.create(
-      profileData
+      profile
     );
-
+    console.log('profileData.body.working', profileData)
+    console.log('profileData.file.path', avatarPath)
+    console.log('full profile', profile)
     return newApplicantProfile;
   },
 };

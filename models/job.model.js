@@ -14,7 +14,6 @@ const jobSchema = new mongoose.Schema(
     field: { type: String, required: true },
     position: { type: String, required: true },
     status: { type: String, required: true },
-    maxApplicants: { type: Number, required: true },
     description: { type: String, required: true },
     applicants: { type: [mongoose.Schema.Types.ObjectId], ref: 'ApplicantProfile', required: true }
   },

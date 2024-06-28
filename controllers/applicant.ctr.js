@@ -5,16 +5,16 @@ const applicantService = require("../services/applicant.service");
 module.exports = {
   createApplicantProfile: asyncHandler(async (req, res) => {
   try {
-    const associatedProfile = await applicantService.findProfileByAccountId(
-      req.body.accountId
-    );
-    if (associatedProfile) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "Account is already associated with a profile",
-      });
-    }
+    // const associatedProfile = await applicantService.findProfileByAccountId(
+    //   req.body.accountId
+    // );
+    // if (associatedProfile) {
+    //   return res.status(StatusCodes.BAD_REQUEST).json({
+    //     message: "Account is already associated with a profile",
+    //   });
+    // }
     const newAppicantProfile = await applicantService.createApplicantProfile(
-      req.body
+      req.body, req.file.path
     );
 
     return res.status(StatusCodes.CREATED).json({

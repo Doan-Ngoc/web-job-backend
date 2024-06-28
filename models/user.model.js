@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
     },
     password: {
       type: String,
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: [roles.admin, roles.company, roles.employee],
+      enum: [roles.admin, roles.company, roles.applicant],
     },
 
     isActive: {
@@ -29,15 +29,15 @@ const userSchema = mongoose.Schema(
       default: true,
     },
 
-    associatedProfile: {
-      type: mongoose.Types.ObjectId,
-      ref: "UserProfile",
-    },
+    // associatedProfile: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: "UserProfile",
+    // },
 
-    associatedCompany: {
-      type: mongoose.Types.ObjectId,
-      ref: "Company",
-    },
+    // associatedCompany: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: "Company",
+    // },
   },
   {
     toJSON: { virtuals: true },

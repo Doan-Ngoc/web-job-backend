@@ -34,9 +34,6 @@ module.exports = [
     body('status')
     .notEmpty()
     .withMessage('This field is required'),  
-    body('maxApplicants')
-    .notEmpty()
-    .withMessage('This field is required'),
   body('description')
     .notEmpty()
     .withMessage('This field is required'),
