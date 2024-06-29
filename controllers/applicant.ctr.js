@@ -13,8 +13,10 @@ module.exports = {
     //     message: "Account is already associated with a profile",
     //   });
     // }
+    const defaultImageUrl = 'https://e7.pngegg.com/pngimages/213/828/png-clipart-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-thumbnail.png'; 
+    const profilePicturePath = req.file ? req.file.path : defaultImageUrl;
     const newAppicantProfile = await applicantService.createApplicantProfile(
-      req.body, req.file.path
+      req.body, profilePicturePath
     );
 
     return res.status(StatusCodes.CREATED).json({

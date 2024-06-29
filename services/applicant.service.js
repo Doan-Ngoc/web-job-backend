@@ -16,9 +16,6 @@ module.exports = {
   }},
 
   async createApplicantProfile(profileData, avatarPath) {
-    // const newApplicantProfile = await applicantProfileModel.create(
-    //   profileData
-    // );
     const profile = {
       ...profileData,
       profilePicture: avatarPath
@@ -26,9 +23,6 @@ module.exports = {
     const newApplicantProfile = await applicantProfileModel.create(
       profile
     );
-    console.log('profileData.body.working', profileData)
-    console.log('profileData.file.path', avatarPath)
-    console.log('full profile', profile)
     return newApplicantProfile;
   },
 };

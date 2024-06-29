@@ -16,8 +16,9 @@ module.exports = {
     //     message: "Email already exists",
     //   });
     // }
-    const newUser = await UserModel.create(req.body);
     console.log('to control file')
+    const newUser = await UserModel.create(req.body);
+   
     return res.status(StatusCodes.CREATED).json({
       id: newUser._id,
     });
