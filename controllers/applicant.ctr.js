@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("@utils/AsyncHandler");
 const applicantService = require("../services/applicant.service");
+const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 
 module.exports = {
   createApplicantProfile: asyncHandler(async (req, res) => {
@@ -14,20 +15,22 @@ module.exports = {
     //   });
     // }
     const defaultImageUrl = 'https://e7.pngegg.com/pngimages/213/828/png-clipart-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-thumbnail.png'; 
-    const profilePicturePath = req.file ? req.file.path : defaultImageUrl;
+    const profilePicturePath = req.files.profilePicture ? req.files.profilePicture[0].path : defaultImageUrl;
+    const applicantCV = req.files.applicantCV ? req.files.applicantCV[0].path : null;
+     
     const newAppicantProfile = await applicantService.createApplicantProfile(
-      req.body, profilePicturePath
+      req.body, profilePicturePath, applicantCV
     );
-
     return res.status(StatusCodes.CREATED).json({
       newProfile: newAppicantProfile,
     });
   }
-  catch (err) {
-    console.log(err)
+  catch (error) {
+    console.error("Error uploading profile data:", error);
+    deleteUploadedFiles(req)
     return res
       .status(400)
-      .json({ success: false, error: "An error occurred" });
+      .json({ success: false, error: "Error uploading profile data" });
   }}
 ),
 

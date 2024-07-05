@@ -1,5 +1,6 @@
 const applicantProfileModel = require('@models/applicant.model');
 const multer = require('multer')
+const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 
 module.exports = {
   async findProfileByAccountId(accountId) {
@@ -15,14 +16,19 @@ module.exports = {
     res.status(500).json({ error: "Internal Server Error" });
   }},
 
-  async createApplicantProfile(profileData, avatarPath) {
+  async createApplicantProfile(profileData, photoPath, cvPath) {
     const profile = {
       ...profileData,
-      profilePicture: avatarPath
+      profilePicture: photoPath,
+      applicantCV: cvPath
     }
     const newApplicantProfile = await applicantProfileModel.create(
       profile
     );
     return newApplicantProfile;
   },
+  catch (error) {
+    console.error("Error fetching profile data:", error);
+    res.status(400).json({ error: "Bad Request" });
+  }
 };

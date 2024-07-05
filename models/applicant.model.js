@@ -5,7 +5,7 @@ const applicantProfileSchema = mongoose.Schema({
   accountId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    // required: true,
   },
   name: {
     type: String,
@@ -27,7 +27,13 @@ const applicantProfileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  profilePicture: String,
+  profilePicture: {
+    type: String,
+    required: true,
+},
+  applicantCV: {
+    type: String,
+  },
   attachment: String,
 }, { toJSON: { virtuals: true } });
 
