@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const express = require("express");
 const morgan = require("morgan");
+const path = require('path');
 const { environmentConfig } = require("@configs");
 const cors = require("cors");
 const connectMongoDb = require("@utils/ConnectMongoDB");
@@ -17,6 +18,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, './uploads'))); 
 
 app.use("/", rootRouter);
 connectMongoDb()

@@ -37,15 +37,6 @@ router.post(
   applicantCtr.createApplicantProfile,
 );
 
-// router.post(
-//   "/profile/new", 
-//   uploadAvatar.single("profilePicture"),
-//   (req, res) => {
-//     console.log('File uploaded:', req.file);
-//     res.send('File uploaded successfully');
-//   }
-// );
-
 router.get("/profile/:accountId", 
 applicantCtr.getApplicantProfileByAccount);
 

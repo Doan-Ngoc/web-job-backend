@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const asyncHandler = require("@utils/AsyncHandler");
+const path = require('path');
 const applicantService = require("../services/applicant.service");
 const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 
@@ -14,8 +15,9 @@ module.exports = {
     //     message: "Account is already associated with a profile",
     //   });
     // }
-    const defaultImageUrl = 'https://e7.pngegg.com/pngimages/213/828/png-clipart-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-thumbnail.png'; 
-    const profilePicturePath = req.files.profilePicture ? req.files.profilePicture[0].path : defaultImageUrl;
+    // const defaultImageUrl = 'https://e7.pngegg.com/pngimages/213/828/png-clipart-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-thumbnail.png'; 
+    const defaultAvatar = path.join(__dirname, '../uploads/profilePictures/applicantAvatars/default-avatar.jpg');
+    const profilePicturePath = req.files.profilePicture ? req.files.profilePicture[0].path : defaultAvatar;
     const applicantCV = req.files.applicantCV ? req.files.applicantCV[0].path : null;
      
     const newAppicantProfile = await applicantService.createApplicantProfile(
