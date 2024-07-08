@@ -35,6 +35,7 @@ const uploadApplicantCV = multer({ storage: applicantCV });
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
       let destinationPath = ''; 
+      
       // Determine destination based on file type
       if (file.fieldname === 'profilePicture') {
         destinationPath = path.join(__dirname, '../uploads/profilePictures/applicantAvatars');
@@ -44,16 +45,17 @@ const storage = multer.diskStorage({
       callback(null, destinationPath);
     },
     filename: function (req, file, callback) {
-    //   const accountId = req.body.accountId;
-      const fileExtension = path.extname(file.originalname);
+      // const accountId = req.body.accountId;
+      // const fileExtension = path.extname(file.originalname);
       // Customize filename based on the field name and original filename
-      let filenamePrefix = '';
-      if (file.fieldname === 'profilePicture') {
-        filenamePrefix = 'photo_';
-      } else if (file.fieldname === 'applicantCV') {
-        filenamePrefix = 'cv_';
-      } 
-      callback(null, filenamePrefix + fileExtension);
+      // let filenamePrefix = '';
+      // if (file.fieldname === 'profilePicture') {
+      //   filenamePrefix = 'photo_';
+      // } else if (file.fieldname === 'applicantCV') {
+      //   filenamePrefix = 'cv_';
+      // } 
+      // callback(null, filenamePrefix + accountId + fileExtension);
+      callback(null, file.originalname);
     }
   });
 

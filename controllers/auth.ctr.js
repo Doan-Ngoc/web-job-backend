@@ -9,14 +9,13 @@ const tokenModel = require("../models/refreshToken.model");
 module.exports = {
   //Tạo tài khoản mới
   createUser: asyncHandler(async (req, res) => {
-    // const userWithEmail = await userService.findUserByEmail(req.body.email);
-    // if (userWithEmail) {
-    //   return res.status(400).json({
-    //     field: "email",
-    //     message: "Email already exists",
-    //   });
-    // }
-    console.log('to control file')
+    const userWithEmail = await userService.findUserByEmail(req.body.email);
+    if (userWithEmail) {
+      return res.status(400).json({
+        field: "email",
+        message: "Email already existed",
+      });
+    }
     const newUser = await UserModel.create(req.body);
    
     return res.status(StatusCodes.CREATED).json({

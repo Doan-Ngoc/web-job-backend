@@ -7,18 +7,23 @@ const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 module.exports = {
   createApplicantProfile: asyncHandler(async (req, res) => {
   try {
-    // const associatedProfile = await applicantService.findProfileByAccountId(
-    //   req.body.accountId
-    // );
-    // if (associatedProfile) {
-    //   return res.status(StatusCodes.BAD_REQUEST).json({
-    //     message: "Account is already associated with a profile",
-    //   });
-    // }
-    // const defaultImageUrl = 'https://e7.pngegg.com/pngimages/213/828/png-clipart-facebook-logo-facebook-messenger-logo-social-media-icon-facebook-icon-blue-text-thumbnail.png'; 
-    const defaultAvatar = path.join(__dirname, '../uploads/profilePictures/applicantAvatars/default-avatar.jpg');
-    const profilePicturePath = req.files.profilePicture ? req.files.profilePicture[0].path : defaultAvatar;
-    const applicantCV = req.files.applicantCV ? req.files.applicantCV[0].path : null;
+    const associatedProfile = await applicantService.findProfileByAccountId(
+      req.body.accountId
+    );
+    if (associatedProfile) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Account is already associated with a profile",
+      });
+    }
+
+    const baseDirectory = path.join(__dirname, '../uploads/');
+    function getRelativePath(filePath) {
+      return path.relative(baseDirectory, filePath).replace(/\\/g, '/');
+    }
+
+    const defaultAvatar = path.join('profilePictures/applicantAvatars/default-avatar.jpg');
+    const profilePicturePath = req.files.profilePicture ? getRelativePath(req.files.profilePicture[0].path) : defaultAvatar;
+    const applicantCV = req.files.applicantCV ? getRelativePath(req.files.applicantCV[0].path) : null;
      
     const newAppicantProfile = await applicantService.createApplicantProfile(
       req.body, profilePicturePath, applicantCV

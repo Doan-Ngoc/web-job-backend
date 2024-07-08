@@ -5,7 +5,8 @@ const applicantProfileSchema = mongoose.Schema({
   accountId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    // required: true,
+    required: true,
+    unique: true,
   },
   name: {
     type: String,

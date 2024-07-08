@@ -10,22 +10,6 @@ const {uploadAplicantAvatar, uploadApplicantCV, logRequest, upload } = require("
 const multer = require('multer');
 const path = require('path');
 
-//Creating storage option for profile pictures
-const avatarStorage = multer.diskStorage({
-  destination: function (req, file, callback) {
-      callback(null, path.join(__dirname, '../uploads/profilePictures/applicantAvatars'));
-  },
-//   //Extracts the file extension from the original filename to ensure that the uploaded file retains its original file type
-//   // filename: function (req, file, callback) {
-//   //   const accountId = req.body.accountId; 
-//   //   const fileExtension = path.extname(file.originalname);
-//   //   callback(null, 'photo_' + accountId + fileExtension);
-  filename: function (req, file, callback) {
-      callback(null, file.originalname);  
-  }
-})
-const uploadAvatar = multer({ storage: avatarStorage})
-
 router.post(
   "/profile/new",
   upload.fields([

@@ -1,11 +1,8 @@
 const { body } = require('express-validator');
 
 module.exports = [
-  // body('accountId')
-  //   .notEmpty(),
-  // body('test')
-  //   .notEmpty()
-  //   .withMessage('This field is required'),
+  body('accountId')
+    .notEmpty(),
   body('name')
     .notEmpty()
     .withMessage('This field is required'),
