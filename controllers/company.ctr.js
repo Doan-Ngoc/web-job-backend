@@ -3,6 +3,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const asyncHandler = require("../utils/AsyncHandler");
 const companyService = require("../services/company.service");
 const companyModel = require("../models/company.model")
+const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 
 module.exports = {
   // createCompany: asyncHandler(async (req, res) => {
@@ -20,7 +21,7 @@ module.exports = {
   //   return res.status(StatusCodes.CREATED).json({ data: newCompany });
   // }),
 
-    //Find a company profile by the account id
+  //Find a company profile by the account id
   getCompanyProfileByAccount: asyncHandler(async (req, res) => {
     try {
       const associatedProfile = await companyService.getCompanyProfileByAccountId(
@@ -36,58 +37,54 @@ module.exports = {
   // Add company profile to database
   async createCompanyProfile(req, res) {
     try {
-      console.log('company profile data on backend', req.body)
       const associatedProfile = await companyService.getCompanyProfileByAccountId(
         req.body.accountId
       );
-  
+
       if (associatedProfile) {
         return res
           .status(StatusCodes.BAD_REQUEST)
           .json({ message: "Account is already associated with a profile" });
       }
-      const newCompanyProfile = await companyService.createCompany(
-        req.body
-      )
-          // const newCompanyProfile = new  companyModel({
-          //   accountId: req.body.accountId,
-          //   name: req.body.name,
-          //   logo: req.body.logo,
-          //   phone: req.body.phone,
-          //   email: req.body.email,
-          //   address: req.body.address,
-          //   companyIndustries: req.body.companyIndustries,
-          //   description: req.body.description,
-          // });
-    
-          // await companyProfile.save();
-    
-          // res.json({ status: "Company profile created successfully" });
-          return res.status(StatusCodes.CREATED).json({
-            newProfile: newCompanyProfile, 
-          });
-        } catch (err) {
-          console.log(err)
-          return res
-            .status(400)
-            .json({ success: false, error: "An error occurred" });
-        }
-      },
 
-      //Find a company profile by the account id
-      // async getCompanyProfileByAccountId(req, res) {
-      //   try {
-      //     const profileId = req.params.profileId;
-      //     const profile = await companyModel.findById(profileId);
-    
-      //     if (!profile) {
-      //        return res.status(404).json({ error: "Profile not found" });
-      //     }
-      //     res.json(profile);
-      //   } catch (error) {
-      //     console.error("Error fetching profile data:", error);
-      //     res.status(500).json({ error: "Internal Server Error" });
-      //   }
-      // },
+      const baseDirectory = path.join(__dirname, '../uploads/');
+      function getRelativePath(filePath) {
+        return path.relative(baseDirectory, filePath).replace(/\\/g, '/');
+      }
+      // const defaultAvatar = path.join('profilePictures/applicantAvatars/default-avatar.jpg');
+      if (!req.files.companyLogo[0]) {
+        throw new Error("A company logo is required.");
+      }
+      const companyLogoPath = getRelativePath(req.files.companyLogo[0].path);
+      const newCompanyProfile = await companyService.createCompany(
+        req.body, companyLogoPath
+      )
+      return res.status(StatusCodes.CREATED).json({
+        newProfile: newCompanyProfile,
+      });
+    } catch (err) {
+      console.error("Error uploading profile data:", err.message);
+      deleteUploadedFiles(req)
+      return res
+        .status(400)
+        .json({ success: false, error: "Error uploading profile data" });
+    }
+  },
+
+  //Find a company profile by the account id
+  // async getCompanyProfileByAccountId(req, res) {
+  //   try {
+  //     const profileId = req.params.profileId;
+  //     const profile = await companyModel.findById(profileId);
+
+  //     if (!profile) {
+  //        return res.status(404).json({ error: "Profile not found" });
+  //     }
+  //     res.json(profile);
+  //   } catch (error) {
+  //     console.error("Error fetching profile data:", error);
+  //     res.status(500).json({ error: "Internal Server Error" });
+  //   }
+  // },
 
 };

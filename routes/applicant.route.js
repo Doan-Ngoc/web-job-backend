@@ -6,7 +6,7 @@ const applicantNewProfileValidation = require("../middlewares/validations/applic
 const validate = require("../middlewares/ValidationHandler");
 const requireSignin = require("../middlewares/requireSignin");
 const router = Router();
-const {uploadAplicantAvatar, uploadApplicantCV, logRequest, upload } = require("../middlewares/fileUploads")
+const {uploadAplicantAvatar, uploadApplicantCV, upload } = require("../middlewares/fileUploads")
 const multer = require('multer');
 const path = require('path');
 
@@ -25,17 +25,14 @@ router.get("/profile/:accountId",
 applicantCtr.getApplicantProfileByAccount);
 
 router.get("/download/applicantCV/:filename", (req, res) => {
-  console.log('start')
   const filename = req.params.filename;
   const filePath = path.join(__dirname, "../uploads/applicantCV/", filename);
-  console.log('filepath là', filePath)
   res.download(filePath, (err) => {
     if (err) {
       console.error("Error in file download:", err);
       res.status(403).json({ message: "Invalid refresh token" });
       res.status(500).json({ message: "File not found."});
     }
-    console.log('got file')
   });
 })
 

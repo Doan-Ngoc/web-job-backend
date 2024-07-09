@@ -17,6 +17,7 @@ module.exports = {
   }},
 
   async createApplicantProfile(profileData, photoPath, cvPath) {
+  try{
     const profile = {
       ...profileData,
       profilePicture: photoPath,
@@ -26,9 +27,9 @@ module.exports = {
       profile
     );
     return newApplicantProfile;
-  },
-  catch (error) {
-    console.error("Error fetching profile data:", error);
-    res.status(400).json({ error: "Bad Request" });
   }
+  catch (error) {
+    console.error("Error uploading profile data:", error);
+    res.status(400).json({ error: "Bad Request" });
+  }}
 };

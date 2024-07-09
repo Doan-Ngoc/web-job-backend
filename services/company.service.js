@@ -1,12 +1,20 @@
 const CompanyModel = require("../models/company.model");
 
 module.exports = {
-  async createCompany(profileData) {
+  async createCompany(profileData, photoPath) {
+    try{
+    const profile = {
+      ...profileData,
+      logo: photoPath
+    }
     const newCompanyProfile = await CompanyModel.create(
-      profileData
+      profile
     );
     return newCompanyProfile;
-  },
+  } catch(error) {
+    console.error("Error uploading profile data:", error);
+    res.status(400).json({ error: "Bad Request" });
+  }},
 
   async getCompanyProfileByAccountId(accountId) {
     try {
