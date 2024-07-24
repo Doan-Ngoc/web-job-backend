@@ -24,16 +24,13 @@ router.post(
 router.get("/profile/:accountId", 
 applicantCtr.getApplicantProfileByAccount);
 
-router.get("/download/applicantCV/:filename", (req, res) => {
-  const filename = req.params.filename;
-  const filePath = path.join(__dirname, "../uploads/applicantCV/", filename);
-  res.download(filePath, (err) => {
-    if (err) {
-      console.error("Error in file download:", err);
-      res.status(403).json({ message: "Invalid refresh token" });
-      res.status(500).json({ message: "File not found."});
-    }
-  });
-})
+router.get("/download/applicantCV/:filename", applicantCtr.downloadCV)
+
+router.patch("/apply/:jobId", 
+  requireSignin, 
+  allowTo(roles.applicant),
+  applicantCtr.sendApplication
+  )
+
 
 module.exports = router;

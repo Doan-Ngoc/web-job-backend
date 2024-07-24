@@ -1,5 +1,7 @@
 const JobModel = require("../models/job.model");
 const JobFieldModel = require("../models/field.model");
+const applicantService = require("../services/applicant.service");
+
 module.exports = {
   // Get all jobs
   async getAllJobs(req, res) {
@@ -93,6 +95,29 @@ module.exports = {
     }
   },
 
+  //Find jobs applied by an applicant
+  async getAppliedJobList(req, res) {
+    try{
+      const applicantProfile = await applicantService.findProfileByAccountId(req.params.accountId)
+      await applicantProfile.populate({
+        path: 'appliedJobs.jobId',
+        select: 'title company'
+      });
+      const appliedJobsPopulated = applicantProfile.appliedJobs.map(job => ({
+        jobId: job.jobId._id,
+        jobTitle: job.jobId.title,
+        company: job.jobId.company,
+        status: job.status,
+        appliedDate: job.appliedDate
+      }));
+      res.json(appliedJobsPopulated)
+    }
+    catch(err) {
+      console.error(err);
+      return res.status(400).json({ success: false, error: "An error occurred" });
+    }
+  },
+
   //Find jobs created by a specific company
   async getJobListByCompany(req, res) {
     try {
@@ -104,9 +129,7 @@ module.exports = {
       }
       res.json(companyCreatedJobs);
     } catch (err) {
-      return res
-        .status(400)
-        .json({ success: false, error: "An error occurred" });
+      return res.status(400).json({ success: false, error: "An error occurred" });
     }
   },
 

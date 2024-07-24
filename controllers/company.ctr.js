@@ -4,6 +4,7 @@ const asyncHandler = require("../utils/AsyncHandler");
 const companyService = require("../services/company.service");
 const companyModel = require("../models/company.model")
 const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
+const path = require('path');
 
 module.exports = {
   // createCompany: asyncHandler(async (req, res) => {
@@ -52,10 +53,10 @@ module.exports = {
         return path.relative(baseDirectory, filePath).replace(/\\/g, '/');
       }
       // const defaultAvatar = path.join('profilePictures/applicantAvatars/default-avatar.jpg');
-      if (!req.files.companyLogo[0]) {
+      if (!req.file) {
         throw new Error("A company logo is required.");
       }
-      const companyLogoPath = getRelativePath(req.files.companyLogo[0].path);
+      const companyLogoPath = getRelativePath(req.file.path);
       const newCompanyProfile = await companyService.createCompany(
         req.body, companyLogoPath
       )

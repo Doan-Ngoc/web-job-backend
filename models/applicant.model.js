@@ -1,5 +1,31 @@
 const mongoose = require('mongoose');
-const constants = require('@constants');
+const { application } = require("../constants");
+
+const appliedJobSchema = mongoose.Schema({
+  jobId: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref: 'Job',
+    required: true
+  },
+  // jobTitle: {
+  //   type: String,
+  //   required: true
+  // },
+  // company: {
+  //   type: String,
+  //   required: true
+  // },
+  status: {
+    type: String,
+    enum: application.status.pending, 
+    default: 'applied',
+    required: true
+  },
+  appliedDate: {
+    type: Date,
+    default: Date.now
+  }
+});
 
 const applicantProfileSchema = mongoose.Schema({
   accountId: {
@@ -36,7 +62,13 @@ const applicantProfileSchema = mongoose.Schema({
     type: String,
   },
   attachment: String,
+  appliedJobs: {
+    type: [appliedJobSchema],
+    default: []
+  }
 }, { toJSON: { virtuals: true } });
+
+
 
 const applicantProfileModel = mongoose.model('ApplicantProfile', applicantProfileSchema);
 

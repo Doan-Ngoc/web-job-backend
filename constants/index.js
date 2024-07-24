@@ -4,4 +4,10 @@ exports.roles = {
   applicant: 'applicant',
 };
 
-exports.genders = ['none', 'male', 'female'];
+exports.application= {
+  status: {
+    pending: 'pending',
+    accepted: 'accepted',
+    rejected: 'rejected'
+  }
+};

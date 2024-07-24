@@ -1,5 +1,31 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
+const { application } = require("../constants");
+
+const applicationSchema = mongoose.Schema({
+  profileId: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref: 'ApplicantProfile',
+    required: true
+  },
+  applicantName: {
+    type: String,
+    required: true
+  },
+  applicantCV: {
+    type: String
+  },
+  status: {
+    type: String,
+    enum: application.status.pending, 
+    default: 'applied',
+    required: true
+  },
+  appliedDate: {
+    type: Date,
+    default: Date.now
+  }
+});
 
 const jobSchema = new mongoose.Schema(
   {
@@ -15,7 +41,10 @@ const jobSchema = new mongoose.Schema(
     position: { type: String, required: true },
     status: { type: String, required: true },
     description: { type: String, required: true },
-    applicants: { type: [mongoose.Schema.Types.ObjectId], ref: 'ApplicantProfile', required: true }
+    applicantList: {
+      type: [applicationSchema],
+      default: []
+    }
   },
   { toJSON: { virtuals: true } },
   { timestamps: true }

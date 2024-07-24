@@ -3,6 +3,7 @@ const asyncHandler = require("@utils/AsyncHandler");
 const path = require('path');
 const applicantService = require("../services/applicant.service");
 const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
+const JobModel = require("../models/job.model");
 
 module.exports = {
   createApplicantProfile: asyncHandler(async (req, res) => {
@@ -44,7 +45,6 @@ module.exports = {
 getApplicantProfileByAccount: asyncHandler(async (req, res) => {
     try {
     const existingApplicantProfile = await applicantService.findProfileByAccountId(
-      // req.user.id
       req.params.accountId
     );
     res.json(existingApplicantProfile)
@@ -52,14 +52,57 @@ getApplicantProfileByAccount: asyncHandler(async (req, res) => {
     console.error("Error fetching profile data:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-    // if (!existingApplicantProfile) {
-    //   return res.status(StatusCodes.NOT_FOUND).json({
-    //     message: "User profile does not exist",
+  }),
+  
+  downloadCV: asyncHandler(async (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, "../uploads/applicantCV/", filename);
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error("Error in file download:", err);
+      res.status(403).json({ message: "Invalid refresh token" });
+      res.status(500).json({ message: "File not found."});
+    }
+  });
+  }),
+
+  sendApplication: asyncHandler(async (req, res) => {
+    try{
+    const applicantProfile = await applicantService.findProfileByAccountId(
+      req.user.id
+    )
+    // console.log('applicantProfile.appliedJobs', applicantProfile.appliedJobs)
+    // const hasApplied = applicantProfile.appliedJobs.some(appliedJob => appliedJob.jobId.toString() === req.params.jobId);
+    // if (hasApplied) {
+    //   return res.status(StatusCodes.BAD_REQUEST).json({
+    //     message: "You have already applied for this job",
     //   });
     // }
-
-    // return res.status(StatusCodes.CREATED).json({
-    //   data: existingUserProfile,
-    // });
+    const appliedJob =  await JobModel.findById(req.params.jobId)
+    if (!appliedJob) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "Job not found" });
+    }
+    appliedJob.applicantList.push({
+      profileId: applicantProfile._id,
+      applicantName: applicantProfile.name,
+      applicantCV: applicantProfile. applicantCV,
+      status: 'pending',
+      appliedDate: Date.now()
+    })
+    await appliedJob.save();
+    applicantProfile.appliedJobs.push({
+      jobId: req.params.jobId,
+      jobTitle: appliedJob.title,
+      company: appliedJob.company,
+      status: 'pending',
+      appliedDate: Date.now()
+    })
+    await applicantProfile.save();
+    return res.status(201).json({status: "Application has been sent successfully!"});
+    }
+    catch (error) {
+      console.error("Error sending application: ", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }),
 };

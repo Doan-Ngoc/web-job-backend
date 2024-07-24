@@ -33,7 +33,7 @@ const path = require('path');
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
       let destinationPath = ''; 
-      
+      console.log('file', file)
       // Determine destination based on file type
       if (file.fieldname === 'profilePicture') {
         destinationPath = path.join(__dirname, '../uploads/profilePictures/applicantAvatars');
@@ -41,6 +41,7 @@ const storage = multer.diskStorage({
         destinationPath = path.join(__dirname, '../uploads/applicantCV');
       }
       else if (file.fieldname === 'companyLogo') {
+        console.log('reached here')
         destinationPath = path.join(__dirname, '../uploads/profilePictures/companyLogos');
       } 
       callback(null, destinationPath);

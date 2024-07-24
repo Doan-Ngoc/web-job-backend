@@ -31,5 +31,15 @@ module.exports = {
   catch (error) {
     console.error("Error uploading profile data:", error);
     res.status(400).json({ error: "Bad Request" });
-  }}
+  }},
+
+  async checkAppliedJob(jobId) {
+    try {
+     
+    } 
+    catch (error) {
+      console.error("Error fetching data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
 };

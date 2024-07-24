@@ -21,8 +21,7 @@ module.exports = [
     .withMessage('invalid email address'),
   body('companyIndustries')
     .notEmpty()
-    .withMessage('This field is required')
-    .isArray(),
+    .withMessage('This field is required'),
   body('description')
     .notEmpty()
     .withMessage('This field is required')

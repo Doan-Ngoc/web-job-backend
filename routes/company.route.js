@@ -16,6 +16,17 @@ router.get("/profile/:accountId",
   router.post(
     "/profile/new",
     upload.single("companyLogo"),
+    
+    (req, res, next) => {
+      if (req.file) {
+        console.log('Logo uploaded successfully:', req.file);
+        console.log('array', req.body)
+      } else {
+        console.log('No logo uploaded.', req.body);
+      }
+      next();
+    },
+
     companyValidation,
     validate,
     companyCtr.createCompanyProfile

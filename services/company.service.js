@@ -2,6 +2,7 @@ const CompanyModel = require("../models/company.model");
 
 module.exports = {
   async createCompany(profileData, photoPath) {
+    console.log('came to service file')
     try{
     const profile = {
       ...profileData,

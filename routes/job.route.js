@@ -8,11 +8,9 @@ const createJobValidation = require('../middlewares/validations/createJob.valida
 const validate = require("../middlewares/ValidationHandler");
 
 jobRouter.use("/search", jobController.searchJobByKeyWord);
-jobRouter.post("/new", 
-    createJobValidation, 
-    validate, 
-    jobController.createNewJob);
+jobRouter.post("/new", createJobValidation, validate, jobController.createNewJob);
 jobRouter.get("/created", requireSignin, allowTo(roles.company), jobController.getJobListByCompany);
+jobRouter.get("/applied/:accountId", jobController.getAppliedJobList);
 jobRouter.post("/remove/:jobId", jobController.removeJob);
 jobRouter.put("/update/:jobId", jobController.updateJob);
 jobRouter.get("/api/fields", jobController.getJobFields);
