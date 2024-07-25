@@ -7,21 +7,6 @@ const deleteUploadedFiles = require('../middlewares/deleteUploadedFile')
 const path = require('path');
 
 module.exports = {
-  // createCompany: asyncHandler(async (req, res) => {
-  //   const associatedProfile = await companyService.getCompanyProfileByAccountId(
-  //     req.body.accountId
-  //   );
-
-  //   if (associatedProfile) {
-  //     return res
-  //       .status(StatusCodes.BAD_REQUEST)
-  //       .json({ message: "Account has already associated with a profile" });
-  //   }
-
-  //   const newCompany = await companyService.create(req.user.id, req.body);
-  //   return res.status(StatusCodes.CREATED).json({ data: newCompany });
-  // }),
-
   //Find a company profile by the account id
   getCompanyProfileByAccount: asyncHandler(async (req, res) => {
     try {

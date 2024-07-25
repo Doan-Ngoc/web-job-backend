@@ -84,16 +84,14 @@ module.exports = {
       }
       appliedJob.applicantList.push({
         profileId: applicantProfile._id,
-        applicantName: applicantProfile.name,
-        applicantCV: applicantProfile.applicantCV,
         status: 'pending',
         appliedDate: Date.now()
       })
       await appliedJob.save();
       applicantProfile.appliedJobs.push({
         jobId: req.params.jobId,
-        jobTitle: appliedJob.title,
-        company: appliedJob.company,
+        // jobTitle: appliedJob.title,
+        // company: appliedJob.company,
         status: 'pending',
         appliedDate: Date.now()
       })
@@ -116,7 +114,7 @@ module.exports = {
         return res.status(StatusCodes.NOT_FOUND).json({ message: "Job not found" });
       }
       await applicantService.deleteApplication(applicantProfile, appliedJob)
-      return res.status(201).json({ status: "Application has been canceled successfully!" });
+      return res.status(201).json({ status: "Application status has been updated successfully!" });
     } catch (error) {
       console.error("Error canceling application: ", error);
       res.status(500).json({ error: "Internal Server Error" });

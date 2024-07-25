@@ -1,3 +1,4 @@
+const { StatusCodes } = require("http-status-codes");
 const JobModel = require("../models/job.model");
 const JobFieldModel = require("../models/field.model");
 const applicantService = require("../services/applicant.service");
@@ -95,44 +96,6 @@ module.exports = {
     }
   },
 
-  //Find jobs applied by an applicant
-  async getAppliedJobList(req, res) {
-    try{
-      const applicantProfile = await applicantService.findProfileByAccountId(req.params.accountId)
-      await applicantProfile.populate({
-        path: 'appliedJobs.jobId',
-        select: 'title company'
-      });
-      const appliedJobsPopulated = applicantProfile.appliedJobs.map(job => ({
-        jobId: job.jobId._id,
-        jobTitle: job.jobId.title,
-        company: job.jobId.company,
-        status: job.status,
-        appliedDate: job.appliedDate
-      }));
-      res.json(appliedJobsPopulated)
-    }
-    catch(err) {
-      console.error(err);
-      return res.status(400).json({ success: false, error: "An error occurred" });
-    }
-  },
-
-  //Find jobs created by a specific company
-  async getJobListByCompany(req, res) {
-    try {
-      const companyCreatedJobs = await JobModel.find({
-        createdBy: req.user.id,
-      });
-      if (!companyCreatedJobs) {
-        throw new Error("Jobs not found");
-      }
-      res.json(companyCreatedJobs);
-    } catch (err) {
-      return res.status(400).json({ success: false, error: "An error occurred" });
-    }
-  },
-
   //Remove job in "Manage Jobs" tab for recruiters
   async removeJob(req, res) {
     try {
@@ -183,4 +146,104 @@ module.exports = {
       return res.status(500).json({ error: "Server error" });
     }
   },
-};
+
+  //Find jobs created by a specific company
+  async getJobListByCompany(req, res) {
+    try {
+      const companyCreatedJobs = await JobModel.find({
+        createdBy: req.user.id,
+      });
+      if (!companyCreatedJobs) {
+        throw new Error("Jobs not found");
+      }
+      res.json(companyCreatedJobs);
+    } catch (err) {
+      return res.status(400).json({ success: false, error: "An error occurred" });
+    }
+  },
+
+   //Find jobs applied by an applicant
+   async getAppliedJobList(req, res) {
+    try{
+      const applicantProfile = await applicantService.findProfileByAccountId(req.params.accountId)
+      await applicantProfile.populate({
+        path: 'appliedJobs.jobId',
+        select: 'title company'
+      });
+      const appliedJobsPopulated = applicantProfile.appliedJobs.map(job => ({
+        jobId: job.jobId._id,
+        jobTitle: job.jobId.title,
+        company: job.jobId.company,
+        status: job.status,
+        appliedDate: job.appliedDate
+      }));
+      res.json(appliedJobsPopulated)
+    }
+    catch(err) {
+      console.error(err);
+      return res.status(400).json({ success: false, error: "An error occurred" });
+    }
+  },
+
+  //Find applications for a specific job
+  async getApplicationsForAJob(req, res) {
+    try{
+      const appliedJob = await JobModel.findById(req.params.jobId);
+      if (!appliedJob) {
+        return res.status(404).json({ error: "Job not found" });
+      }
+      await appliedJob.populate({
+        path: 'applicantList.profileId',
+        select: 'name accountId applicantCV'
+      });
+      const applicantListPopulated = appliedJob.applicantList.map(applicant => ({
+        profileId: applicant.profileId._id,
+        accountId: applicant.profileId.accountId,
+        name: applicant.profileId.name,
+        applicantCV: applicant.profileId.applicantCV,
+        status: applicant.status,
+        appliedDate: applicant.appliedDate
+      }));
+      res.json(applicantListPopulated)
+    }
+    catch(err) {
+      console.error(err);
+      return res.status(400).json({ success: false, error: "An error occurred" });
+    }
+  },
+
+  //Update status of an application
+  async changeApplicationStatus(req, res) {
+  try {
+    const profileId = req.body.profileId
+    const applicantProfile = await applicantService.findProfileByProfileId(profileId)
+    const appliedJob = await JobModel.findById(req.body.jobId)
+    if (!appliedJob) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "Job not found" });
+    }
+   
+    const jobId = appliedJob._id
+      const jobIndex = applicantProfile.appliedJobs.findIndex(
+        (job) => job.jobId.toString() === jobId.toString()
+      );
+      console.log('jobIndex', jobIndex)
+      if (jobIndex > -1) {
+        applicantProfile.appliedJobs[jobIndex].status = req.body.status
+        await applicantProfile.save();
+      }
+      const applicantIndex = appliedJob.applicantList.findIndex(
+        (application) => application.profileId.toString() === profileId.toString()
+      );
+
+      if (applicantIndex > -1) {
+        appliedJob.applicantList[applicantIndex].status = req.body.status
+        await appliedJob.save();
+      }
+    return res.status(201).json({ status: "Application has been canceled successfully!" });
+  }
+  catch(err) {
+    console.error(err);
+    return res.status(400).json({ success: false, error: "An error occurred" });
+  }
+}
+}
