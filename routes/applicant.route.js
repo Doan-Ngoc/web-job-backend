@@ -30,7 +30,12 @@ router.patch("/apply/:jobId",
   requireSignin, 
   allowTo(roles.applicant),
   applicantCtr.sendApplication
-  )
+)
+
+router.post("/cancel/:jobId", 
+  requireSignin, 
+  allowTo(roles.applicant),
+  applicantCtr.cancelApplication)
 
 
 module.exports = router;

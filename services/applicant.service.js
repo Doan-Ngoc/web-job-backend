@@ -33,12 +33,27 @@ module.exports = {
     res.status(400).json({ error: "Bad Request" });
   }},
 
-  async checkAppliedJob(jobId) {
+  async deleteApplication(applicantProfile, appliedJob) {
     try {
-     
+      const jobId = appliedJob._id.toString()
+      const jobIndex = applicantProfile.appliedJobs.findIndex(
+        (job) => job.jobId.toString() === jobId
+      );
+      if (jobIndex > -1) {
+        applicantProfile.appliedJobs.splice(jobIndex, 1);
+        await applicantProfile.save();
+      }
+      const profileId = applicantProfile._id.toString()
+      const applicantIndex = appliedJob.applicantList.findIndex(
+        (application) => application.profileId.toString() === profileId
+      );
+  
+      if (applicantIndex > -1) {
+        appliedJob.applicantList.splice(applicantIndex, 1);
+        await appliedJob.save();
+      }
     } 
     catch (error) {
-      console.error("Error fetching data:", error);
     res.status(500).json({ error: "Internal Server Error" });
     }
   }
