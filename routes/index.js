@@ -9,6 +9,7 @@ const exceptionHandler = require("../middlewares/exceptionHandle");
 const requireSignin = require("../middlewares/requireSignin");
 
 const router = Router();
+ 
 
 router.use("/job", jobRoutes);
 router.use("/auth", authenRoutes);

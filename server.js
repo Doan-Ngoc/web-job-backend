@@ -9,18 +9,20 @@ const { environmentConfig } = require("@configs");
 const cors = require("cors");
 const connectMongoDb = require("@utils/ConnectMongoDB");
 const rootRouter = require("./routes");
+const cookieParser = require('cookie-parser');
 const jobExpireScheduler = require("./jobExpireScheduler");
 
 const app = express();
 
 app.use(cors(
-  // {
-  //   origin: [""],
-  //   methods: ["POST", "GET"],
-  //   credentials: true
-  // }
+  {
+    origin: "http://localhost:5173",
+    // methods: ["POST", "GET"],
+    credentials: true
+  }
 ));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("dev"));

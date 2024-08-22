@@ -29,6 +29,10 @@ const userSchema = mongoose.Schema(
       default: true,
     },
 
+    refreshToken: {
+      type: String,
+    }
+
     // associatedProfile: {
     //   type: mongoose.Types.ObjectId,
     //   ref: "UserProfile",
