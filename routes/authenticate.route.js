@@ -15,6 +15,5 @@ router.post("/token/refresh", authCtr.createNewAccessToken)
 router.get("/token/verify", requireSignin, (req, res) => {
     res.status(StatusCodes.OK).json({ message: 'Token is valid', user: req.user });
 })
-// router.post("/token", authCtr.refreshToken);
 
 module.exports = router;

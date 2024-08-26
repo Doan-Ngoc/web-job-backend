@@ -73,59 +73,6 @@ module.exports = {
     });
   }),
 
-  //Refresh token
-  // refreshToken: asyncHandler(async (req, res) => {
-  //   const { refreshToken } = req.body;
-
-  //   if (!refreshToken) {
-  //     return res.status(401).json({ message: "Refresh token not found" });
-  //   }
-
-  //   try {
-  //     const decoded = jwt.verify(refreshToken, encrypt.jwtSecretRefresh);
-
-  //     const userRefreshToken = await tokenModel.findOne({
-  //       user: decoded.id,
-  //       token: refreshToken,
-  //     });
-
-  //     if (userRefreshToken) {
-  //       return res.status(403).json({ message: "Expired refresh token" });
-  //     }
-
-  //     const expiredToken = new tokenModel({
-  //       user: decoded.id,
-  //       token: refreshToken,
-  //     });
-
-  //     await expiredToken.save();
-
-  //     const user = await userService.findUserById(decoded.id);
-
-  //     const newRefreshToken = jwt.sign(
-  //       { id: decoded.id },
-  //       encrypt.jwtSecretRefresh
-  //     );
-
-  //     const accessToken = jwt.sign(
-  //       {
-  //         id: user._id,
-  //         role: user.role,
-  //       },
-  //       encrypt.jwtSecretAccess,
-  //       { expiresIn: "1h" }
-  //     );
-
-  //     return res.status(201).json({
-  //       user: decoded.id,
-  //       accessToken,
-  //       refreshToken: newRefreshToken,
-  //     });
-  //   } catch (err) {
-  //     return res.status(403).json({ message: "Invalid refresh token" });
-  //   }
-  // }),
-
   //Log out
   logOut: asyncHandler(async (req, res) => {
     const { refreshToken } = req.cookies;
@@ -142,16 +89,19 @@ module.exports = {
   //Reissue access token
   createNewAccessToken: asyncHandler(async(req, res) => {
       const { refreshToken } = req.cookies;
-    
+    console.log('refreshtoken', refreshToken)
       if (!refreshToken) return res.sendStatus(401);
     
       // Verify refresh token
       jwt.verify(refreshToken, encrypt.jwtSecretRefresh, async (err, decoded) => {
+        console.log('verified success', decoded)
         if (err) return res.sendStatus(403);
     
         // Find the user
-        const user = await UserModel.findOne({ _id: decoded.userId, refreshToken });
-        if (!user) return res.sendStatus(403);
+        const user = await UserModel.findOne({ _id: decoded.id, refreshToken });
+        if (!user) {
+          console.log('cant find user')
+          return res.sendStatus(403)};
     
         // Generate new access token
         const accessToken = jwt.sign(
