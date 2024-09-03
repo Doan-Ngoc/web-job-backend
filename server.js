@@ -16,7 +16,7 @@ const app = express();
 
 app.use(cors(
   {
-    origin: "https://job-board-wine-beta.vercel.app/",
+    origin: "https://job-board-wine-beta.vercel.app",
     // methods: ["POST", "GET"],
     credentials: true
   }
