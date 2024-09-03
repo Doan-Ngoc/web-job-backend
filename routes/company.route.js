@@ -26,7 +26,6 @@ router.get("/profile/:accountId",
       }
       next();
     },
-
     companyValidation,
     validate,
     companyCtr.createCompanyProfile

@@ -8,7 +8,7 @@ const requireSignin = require("../middlewares/requireSignin");
 
 const router = Router();
 
-router.post("/logup", logupValidation, validate, authCtr.createUser);
+router.post("/signup", logupValidation, validate, authCtr.createUser);
 router.post("/login", loginValidation, validate, authCtr.logIn);
 router.post("/logout", authCtr.logOut)
 router.post("/token/refresh", authCtr.createNewAccessToken)

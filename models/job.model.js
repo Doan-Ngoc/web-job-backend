@@ -8,13 +8,6 @@ const applicationSchema = mongoose.Schema({
     ref: 'ApplicantProfile',
     required: true
   },
-  // applicantName: {
-  //   type: String,
-  //   required: true
-  // },
-  // applicantCV: {
-  //   type: String
-  // },
   status: {
     type: String,
     enum: application.status, 

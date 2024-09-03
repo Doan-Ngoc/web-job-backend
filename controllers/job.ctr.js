@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const mongoose = require("mongoose");
 const JobModel = require("../models/job.model");
 const JobFieldModel = require("../models/field.model");
 const applicantService = require("../services/applicant.service");
@@ -151,13 +152,15 @@ module.exports = {
   async getJobListByCompany(req, res) {
     try {
       const companyCreatedJobs = await JobModel.find({
-        createdBy: req.user.id,
+        createdBy: req.user.id
       });
+      console.log(companyCreatedJobs)
       if (!companyCreatedJobs) {
         throw new Error("Jobs not found");
       }
       res.json(companyCreatedJobs);
     } catch (err) {
+      console.error("Invalid ObjectId format:", err);
       return res.status(400).json({ success: false, error: "An error occurred" });
     }
   },
